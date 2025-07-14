@@ -1,0 +1,24 @@
+{
+  "name": "react-native-product-tour",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "tour",
+    "product-tour",
+    "guide",
+    "tutorial"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-reanimated": "*",
+    "react-native-gesture-handler": "*"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "A React Native library for creating interactive product tours and guides."
+}

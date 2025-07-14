@@ -1,8 +1,15 @@
-# Welcome to your Expo app 👋
+# React Native Two-Screen App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A simple React Native app with two screens, each containing three dummy components. The app uses React Navigation for code-based navigation between screens.
 
-## Get started
+## Features
+
+- Two screens with distinct UI components
+- Code-based navigation using React Navigation
+- Navigation buttons to move between screens
+- Six dummy components with different styles and colors
+
+## Setup
 
 1. Install dependencies
 
@@ -13,38 +20,42 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 2. Start the app
 
    ```bash
-   npx expo start
+   npm start
    ```
 
-In the output, you'll find options to open the app in a
+## Navigation Structure
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+The app uses a simple stack navigator with two screens:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- FirstScreen: Contains Component1, Component2, and Component3
+- SecondScreen: Contains Component4, Component5, and Component6
 
-## Get a fresh project
+Navigation between screens is handled by buttons on each screen.
 
-When you're ready, run:
+## Project Structure
 
-```bash
-npm run reset-project
+```
+src/
+  ├── components/
+  │   ├── FirstScreenComponents.tsx
+  │   └── SecondScreenComponents.tsx
+  ├── navigation/
+  │   └── AppNavigator.tsx
+  └── screens/
+      ├── FirstScreen.tsx
+      └── SecondScreen.tsx
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Technologies Used
 
-## Learn more
+- React Native
+- React Navigation
+- TypeScript
 
-To learn more about developing your project with Expo, look at the following resources:
+## How to Use
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+1. Launch the app to see the First Screen with its three components
+2. Tap the "Go to Second Screen" button to navigate to the Second Screen
+3. On the Second Screen, tap the "Back to First Screen" button to return
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This app demonstrates simple code-based navigation using React Navigation's Stack Navigator.
