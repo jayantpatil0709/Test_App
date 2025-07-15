@@ -111,12 +111,7 @@ export const useTour = () => {
   return context;
 };
 
-export const TourProvider = ({
-  children,
-  toursConfig,
-  onTourVisited,
-  onTourCompleted,
-}: TourProviderProps) => {
+export const TourProvider = ({ children, toursConfig, onTourVisited, onTourCompleted }: TourProviderProps) => {
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
   const [isTourActive, setIsTourActive] = useState(false);
@@ -192,29 +187,16 @@ export const TourProvider = ({
   }, [highlights, currentStep, currentScreen, activeTourKey]);
 
   const startTour = async (navigate: NavigationFunction, tourKey: string) => {
-    console.log("TourContext - startTour called with tourKey:", tourKey);
-    console.log("TourContext - current isTourActive:", isTourActive);
-    console.log("TourContext - current activeTourKey:", activeTourKey);
-
     hideIntroModal();
     await clearSavedStep(tourKey);
     setActiveTourKey(tourKey);
     setIsTourActive(true);
     onTourVisited?.(tourKey);
     setCurrentStep(1);
-
-    console.log("TourContext - isTourActive set to:", true);
-    console.log("TourContext - currentStep set to:", 1);
-
     const targetScreen = toursConfig[tourKey]?.screenMap[1];
-    console.log("TourContext - targetScreen for step 1:", targetScreen);
-
     if (targetScreen) {
-      console.log("TourContext - Navigating to:", targetScreen);
       navigate(targetScreen as any);
       setCurrentScreen(targetScreen);
-    } else {
-      console.log("TourContext - No target screen found for step 1");
     }
     await saveTourStep(tourKey, 1);
   };

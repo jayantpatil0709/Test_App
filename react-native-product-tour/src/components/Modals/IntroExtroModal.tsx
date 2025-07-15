@@ -1,17 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../../assets/styles/intro.modal.styles";
 import { COLORS } from "../../constants/colors";
 import { useTour } from "../../context/TourContext";
-
-// Declare custom window properties
-declare global {
-  interface Window {
-    startTourFromIntroModal?: (tourKey: string) => void;
-    continueTourFromIntroModal?: (tourKey: string) => void;
-  }
-}
 
 type Props = {
   isVisible: boolean;
@@ -34,39 +27,17 @@ const IntroExtroModal = ({
   showContinueOption = false,
   modalData,
 }: Props) => {
-  const {
-    startTour,
-    continueTour,
-    setIsTourActive,
-    resetToRoot,
-    setActiveTourKey,
-  } = useTour();
+  const { startTour, continueTour, setIsTourActive, resetToRoot, setActiveTourKey } = useTour();
   const { title, content, buttonText, screen, tourKey } = modalData;
 
   const handleStartTour = () => {
     onClose();
-    setIsTourActive(true); // Make sure the tour is active
-    console.log("IntroExtroModal: Starting tour with key:", tourKey);
-
-    // Use a workaround to get the navigation function
-    // The startTour function should be called by the component that has access to navigation
-    setTimeout(() => {
-      // Use the useNavigation hook or pass navigation via context
-      window.startTourFromIntroModal && window.startTourFromIntroModal(tourKey);
-    }, 100);
+    startTour((screen) => router.push(screen as any), tourKey);
   };
 
   const handleContinueTour = () => {
     onClose();
-    setIsTourActive(true); // Make sure the tour is active
-    console.log("IntroExtroModal: Continuing tour with key:", tourKey);
-
-    // Use a workaround to get the navigation function
-    setTimeout(() => {
-      // Use the useNavigation hook or pass navigation via context
-      window.continueTourFromIntroModal &&
-        window.continueTourFromIntroModal(tourKey);
-    }, 100);
+    continueTour((screen) => router.push(screen as any), tourKey);
   };
 
   const handleFinishTour = () => {
@@ -74,7 +45,7 @@ const IntroExtroModal = ({
     setIsTourActive(false);
     resetToRoot();
     setActiveTourKey(null);
-  };
+  }
 
   const handlePressForClose = () => {
     setActiveTourKey(null);
@@ -99,10 +70,7 @@ const IntroExtroModal = ({
     >
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={handlePressForClose}
-          >
+          <TouchableOpacity style={styles.closeButton} onPress={handlePressForClose}>
             <Ionicons name="close" size={24} color="#000" />
           </TouchableOpacity>
 
