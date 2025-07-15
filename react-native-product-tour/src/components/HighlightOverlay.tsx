@@ -1,9 +1,10 @@
-import { router } from "expo-router";
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Mask, Rect } from "react-native-svg";
 import { useTour } from "../context/TourContext";
+import { navigationRef } from "../utils/Navigation"; // 👈 Use the navigationRef
+
 import BeaconLight from "./BeaconLight";
 import Tooltip from "./Tooltip";
 
@@ -24,6 +25,12 @@ export default function HighlightOverlay() {
 
   if (!isTourActive || currentHighlights.length === 0) return null;
 
+  const handleNavigate = (screen: string) => {
+    if (navigationRef.isReady()) {
+      navigationRef.navigate(screen as never);
+    }
+  };
+
   return (
     <View
       style={[
@@ -33,7 +40,6 @@ export default function HighlightOverlay() {
         },
       ]}
     >
-      {/* Highlighted areas using SVG mask */}
       <Svg width={screenWidth} height={screenHeight + insets.top}>
         <Mask
           id="mask"
@@ -73,7 +79,6 @@ export default function HighlightOverlay() {
         />
       </Svg>
 
-      {/* Beacons */}
       {activeTourKey && currentHighlights.map((rect, index) => {
         const highlightTourConfig = rect.tours[activeTourKey];
         if (highlightTourConfig?.showBeacon) {
@@ -94,7 +99,6 @@ export default function HighlightOverlay() {
         return null;
       })}
 
-      {/* Tooltips */}
       {activeTourKey && currentHighlights.map((rect, index) => {
         const highlightTourConfig = rect.tours[activeTourKey];
         if (highlightTourConfig?.tooltip) {
@@ -110,8 +114,8 @@ export default function HighlightOverlay() {
               content={highlightTourConfig.tooltipContent?.content || ""}
               stepNumber={currentStep}
               totalSteps={totalSteps}
-              onNext={() => activeTourKey && nextStep((screen) => router.push(screen as any), activeTourKey)}
-              onPrevious={() => activeTourKey && prevStep((screen) => router.push(screen as any), activeTourKey)}
+              onNext={() => activeTourKey && nextStep(handleNavigate, activeTourKey)}
+              onPrevious={() => activeTourKey && prevStep(handleNavigate, activeTourKey)}
               onClose={() => endTour()}
             />
           );

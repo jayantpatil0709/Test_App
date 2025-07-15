@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import React from "react";
 import { Modal, Text, TouchableOpacity, View } from "react-native";
 import { styles } from "../../assets/styles/intro.modal.styles";
 import { COLORS } from "../../constants/colors";
 import { useTour } from "../../context/TourContext";
+import { navigationRef } from "../../utils/Navigation"; // ✅ Use navigationRef
 
 type Props = {
   isVisible: boolean;
@@ -30,14 +30,20 @@ const IntroExtroModal = ({
   const { startTour, continueTour, setIsTourActive, resetToRoot, setActiveTourKey } = useTour();
   const { title, content, buttonText, screen, tourKey } = modalData;
 
+  const handleNavigate = (screen: string) => {
+    if (navigationRef.isReady()) {
+      navigationRef.navigate(screen as never);
+    }
+  };
+
   const handleStartTour = () => {
     onClose();
-    startTour((screen) => router.push(screen as any), tourKey);
+    startTour(handleNavigate, tourKey);
   };
 
   const handleContinueTour = () => {
     onClose();
-    continueTour((screen) => router.push(screen as any), tourKey);
+    continueTour(handleNavigate, tourKey);
   };
 
   const handleFinishTour = () => {
@@ -45,7 +51,7 @@ const IntroExtroModal = ({
     setIsTourActive(false);
     resetToRoot();
     setActiveTourKey(null);
-  }
+  };
 
   const handlePressForClose = () => {
     setActiveTourKey(null);
